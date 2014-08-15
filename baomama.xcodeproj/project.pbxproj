@@ -1,0 +1,452 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F781F5C9199DDB1500E850EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F781F5C8199DDB1500E850EE /* Foundation.framework */; };
+		F781F5CB199DDB1500E850EE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F781F5CA199DDB1500E850EE /* CoreGraphics.framework */; };
+		F781F5CD199DDB1500E850EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F781F5CC199DDB1500E850EE /* UIKit.framework */; };
+		F781F5D3199DDB1500E850EE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F781F5D1199DDB1500E850EE /* InfoPlist.strings */; };
+		F781F5D5199DDB1500E850EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F781F5D4199DDB1500E850EE /* main.m */; };
+		F781F5D9199DDB1500E850EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F781F5D8199DDB1500E850EE /* AppDelegate.m */; };
+		F781F5DB199DDB1500E850EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F781F5DA199DDB1500E850EE /* Images.xcassets */; };
+		F781F5E2199DDB1500E850EE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F781F5E1199DDB1500E850EE /* XCTest.framework */; };
+		F781F5E3199DDB1500E850EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F781F5C8199DDB1500E850EE /* Foundation.framework */; };
+		F781F5E4199DDB1500E850EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F781F5CC199DDB1500E850EE /* UIKit.framework */; };
+		F781F5EC199DDB1500E850EE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F781F5EA199DDB1500E850EE /* InfoPlist.strings */; };
+		F781F5EE199DDB1500E850EE /* baomamaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F781F5ED199DDB1500E850EE /* baomamaTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F781F5E5199DDB1500E850EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F781F5BD199DDB1500E850EE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F781F5C4199DDB1500E850EE;
+			remoteInfo = baomama;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F781F5C5199DDB1500E850EE /* baomama.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = baomama.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F781F5C8199DDB1500E850EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F781F5CA199DDB1500E850EE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F781F5CC199DDB1500E850EE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F781F5D0199DDB1500E850EE /* baomama-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "baomama-Info.plist"; sourceTree = "<group>"; };
+		F781F5D2199DDB1500E850EE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F781F5D4199DDB1500E850EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F781F5D6199DDB1500E850EE /* baomama-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "baomama-Prefix.pch"; sourceTree = "<group>"; };
+		F781F5D7199DDB1500E850EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F781F5D8199DDB1500E850EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F781F5DA199DDB1500E850EE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F781F5E0199DDB1500E850EE /* baomamaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = baomamaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F781F5E1199DDB1500E850EE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F781F5E9199DDB1500E850EE /* baomamaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "baomamaTests-Info.plist"; sourceTree = "<group>"; };
+		F781F5EB199DDB1500E850EE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F781F5ED199DDB1500E850EE /* baomamaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = baomamaTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F781F5C2199DDB1500E850EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F781F5CB199DDB1500E850EE /* CoreGraphics.framework in Frameworks */,
+				F781F5CD199DDB1500E850EE /* UIKit.framework in Frameworks */,
+				F781F5C9199DDB1500E850EE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F781F5DD199DDB1500E850EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F781F5E2199DDB1500E850EE /* XCTest.framework in Frameworks */,
+				F781F5E4199DDB1500E850EE /* UIKit.framework in Frameworks */,
+				F781F5E3199DDB1500E850EE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F781F5BC199DDB1500E850EE = {
+			isa = PBXGroup;
+			children = (
+				F781F5CE199DDB1500E850EE /* baomama */,
+				F781F5E7199DDB1500E850EE /* baomamaTests */,
+				F781F5C7199DDB1500E850EE /* Frameworks */,
+				F781F5C6199DDB1500E850EE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F781F5C6199DDB1500E850EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F781F5C5199DDB1500E850EE /* baomama.app */,
+				F781F5E0199DDB1500E850EE /* baomamaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F781F5C7199DDB1500E850EE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F781F5C8199DDB1500E850EE /* Foundation.framework */,
+				F781F5CA199DDB1500E850EE /* CoreGraphics.framework */,
+				F781F5CC199DDB1500E850EE /* UIKit.framework */,
+				F781F5E1199DDB1500E850EE /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F781F5CE199DDB1500E850EE /* baomama */ = {
+			isa = PBXGroup;
+			children = (
+				F781F5D7199DDB1500E850EE /* AppDelegate.h */,
+				F781F5D8199DDB1500E850EE /* AppDelegate.m */,
+				F781F5DA199DDB1500E850EE /* Images.xcassets */,
+				F781F5CF199DDB1500E850EE /* Supporting Files */,
+			);
+			path = baomama;
+			sourceTree = "<group>";
+		};
+		F781F5CF199DDB1500E850EE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F781F5D0199DDB1500E850EE /* baomama-Info.plist */,
+				F781F5D1199DDB1500E850EE /* InfoPlist.strings */,
+				F781F5D4199DDB1500E850EE /* main.m */,
+				F781F5D6199DDB1500E850EE /* baomama-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F781F5E7199DDB1500E850EE /* baomamaTests */ = {
+			isa = PBXGroup;
+			children = (
+				F781F5ED199DDB1500E850EE /* baomamaTests.m */,
+				F781F5E8199DDB1500E850EE /* Supporting Files */,
+			);
+			path = baomamaTests;
+			sourceTree = "<group>";
+		};
+		F781F5E8199DDB1500E850EE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F781F5E9199DDB1500E850EE /* baomamaTests-Info.plist */,
+				F781F5EA199DDB1500E850EE /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F781F5C4199DDB1500E850EE /* baomama */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F781F5F1199DDB1500E850EE /* Build configuration list for PBXNativeTarget "baomama" */;
+			buildPhases = (
+				F781F5C1199DDB1500E850EE /* Sources */,
+				F781F5C2199DDB1500E850EE /* Frameworks */,
+				F781F5C3199DDB1500E850EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = baomama;
+			productName = baomama;
+			productReference = F781F5C5199DDB1500E850EE /* baomama.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F781F5DF199DDB1500E850EE /* baomamaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F781F5F4199DDB1500E850EE /* Build configuration list for PBXNativeTarget "baomamaTests" */;
+			buildPhases = (
+				F781F5DC199DDB1500E850EE /* Sources */,
+				F781F5DD199DDB1500E850EE /* Frameworks */,
+				F781F5DE199DDB1500E850EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F781F5E6199DDB1500E850EE /* PBXTargetDependency */,
+			);
+			name = baomamaTests;
+			productName = baomamaTests;
+			productReference = F781F5E0199DDB1500E850EE /* baomamaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F781F5BD199DDB1500E850EE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "bb-coder";
+				TargetAttributes = {
+					F781F5DF199DDB1500E850EE = {
+						TestTargetID = F781F5C4199DDB1500E850EE;
+					};
+				};
+			};
+			buildConfigurationList = F781F5C0199DDB1500E850EE /* Build configuration list for PBXProject "baomama" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F781F5BC199DDB1500E850EE;
+			productRefGroup = F781F5C6199DDB1500E850EE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F781F5C4199DDB1500E850EE /* baomama */,
+				F781F5DF199DDB1500E850EE /* baomamaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F781F5C3199DDB1500E850EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F781F5D3199DDB1500E850EE /* InfoPlist.strings in Resources */,
+				F781F5DB199DDB1500E850EE /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F781F5DE199DDB1500E850EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F781F5EC199DDB1500E850EE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F781F5C1199DDB1500E850EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F781F5D9199DDB1500E850EE /* AppDelegate.m in Sources */,
+				F781F5D5199DDB1500E850EE /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F781F5DC199DDB1500E850EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F781F5EE199DDB1500E850EE /* baomamaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F781F5E6199DDB1500E850EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F781F5C4199DDB1500E850EE /* baomama */;
+			targetProxy = F781F5E5199DDB1500E850EE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F781F5D1199DDB1500E850EE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F781F5D2199DDB1500E850EE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F781F5EA199DDB1500E850EE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F781F5EB199DDB1500E850EE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F781F5EF199DDB1500E850EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F781F5F0199DDB1500E850EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F781F5F2199DDB1500E850EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "baomama/baomama-Prefix.pch";
+				INFOPLIST_FILE = "baomama/baomama-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F781F5F3199DDB1500E850EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "baomama/baomama-Prefix.pch";
+				INFOPLIST_FILE = "baomama/baomama-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		F781F5F5199DDB1500E850EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/baomama.app/baomama";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "baomama/baomama-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "baomamaTests/baomamaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		F781F5F6199DDB1500E850EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/baomama.app/baomama";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "baomama/baomama-Prefix.pch";
+				INFOPLIST_FILE = "baomamaTests/baomamaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F781F5C0199DDB1500E850EE /* Build configuration list for PBXProject "baomama" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F781F5EF199DDB1500E850EE /* Debug */,
+				F781F5F0199DDB1500E850EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F781F5F1199DDB1500E850EE /* Build configuration list for PBXNativeTarget "baomama" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F781F5F2199DDB1500E850EE /* Debug */,
+				F781F5F3199DDB1500E850EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F781F5F4199DDB1500E850EE /* Build configuration list for PBXNativeTarget "baomamaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F781F5F5199DDB1500E850EE /* Debug */,
+				F781F5F6199DDB1500E850EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F781F5BD199DDB1500E850EE /* Project object */;
+}
