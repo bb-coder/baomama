@@ -7,13 +7,39 @@
 //
 
 #import "AppDelegate.h"
-
+#import "NewFeatureViewController.h"
+#import "LoreViewController.h"
+#import "MainViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+//    [ShareSDK registerApp:@"2d54809176e0"];
+//    [ShareSDK connectSinaWeiboWithAppKey:@"3205346392"
+//                               appSecret:@"c8e0a5204100c5788c477ce3f4a55431"
+//                             redirectUri:@""];
+    
+    //设置默认主题模式
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"nightable"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"nightable"];
+    }
+    //取出当前版本信息
+    NSString * key = (NSString *)kCFBundleVersionKey;
+    NSString * currentVersion = [NSBundle mainBundle].infoDictionary[key];
+    //取出沙箱中的版本信息
+    NSString * saveVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if ([currentVersion isEqualToString:saveVersion]) {
+        [UIApplication sharedApplication].statusBarHidden = NO;
+        self.window.rootViewController = [[MainViewController alloc]init];
+    }else
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.window.rootViewController = [[NewFeatureViewController alloc] init];
+    }
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -27,7 +53,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
