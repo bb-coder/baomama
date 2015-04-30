@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Dock.h"
-@interface DockViewController : UIViewController<DockDelegate>
+@interface DockViewController : UITabBarController<DockDelegate>
 {
     Dock * _dock;
 }

@@ -7,45 +7,59 @@
 //
 
 #import "HttpTool.h"
+#import "RongCloudHelper.h"
 
 @implementation HttpTool
-+ (void)requestWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure method:(NSString *)method
++ (void)requestWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure method:(NSString *)method andRongCloud:(BOOL)isRongCloud
 {
     // 1.创建post请求
-    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:kBasePath]];
+    AFHTTPSessionManager * manager = [[AFHTTPSessionManager alloc]initWithBaseURL:[NSURL URLWithString:kBasePath]];
     
-    NSMutableDictionary *allParams = [NSMutableDictionary dictionary];
-    // 拼接传进来的参数
-    if (params) {
-        [allParams setDictionary:params];
+    if(isRongCloud){
+        NSString * nonce = [RongCloudHelper nonce];
+        NSString * timestamp = [RongCloudHelper timestamp];
+        
+    [manager.requestSerializer setValue:@"pwe86ga5el9r6" forHTTPHeaderField:@"App-Key"];
+    [manager.requestSerializer setValue:nonce forHTTPHeaderField:@"Nonce"];
+    [manager.requestSerializer setValue:timestamp forHTTPHeaderField:@"Timestamp"];
+    [manager.requestSerializer setValue:[RongCloudHelper signatureWithAppSecret:@"INkARB3bsFW9" andNonce:nonce andTimestamp:timestamp] forHTTPHeaderField:@"Signature"];
     }
     
-    NSURLRequest *request = [client requestWithMethod:method path:path parameters:allParams];
-    
-    // 2.创建AFJSONRequestOperation对象
-    NSOperation *op = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
-        {
+    if([method isEqualToString:@"POST"])
+    {
+        [manager POST:path parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
             if (success == nil) return;
-                success(JSON);
-        }
-        failure :
-        ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-        {
+            success(responseObject);
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
             if (failure == nil) return;
-                failure(error);
+            failure(error);
         }];
-    // 3.发送请求
-    [op start];
+    }
+    else if([method isEqualToString:@"GET"])
+    {
+        [manager GET:path parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+            if (success == nil) return;
+            success(responseObject);
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            if (failure == nil) return;
+            failure(error);
+        }];
+    }
 }
 
 + (void)postWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure
 {
-    [self requestWithPath:path params:params success:success failure:failure method:@"POST"];
+    [self requestWithPath:path params:params success:success failure:failure method:@"POST" andRongCloud:NO];
 }
 
 + (void)getWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure
 {
-    [self requestWithPath:path params:params success:success failure:failure method:@"GET"];
+    [self requestWithPath:path params:params success:success failure:failure method:@"GET" andRongCloud:NO];
 }
+
++ (void)rongCloudUserWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure
+{
+    [self requestWithPath:path params:params success:success failure:failure method:@"POST" andRongCloud:YES];
+}
+
 @end

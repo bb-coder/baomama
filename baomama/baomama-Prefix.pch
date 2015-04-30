@@ -15,5 +15,9 @@
 #import <Foundation/Foundation.h>
 #import "Common.h"
 #import "BaomamaConfig.h"
+#import "HttpTool.h"
+#import "UIImageView+WebCache.h"
+#import "UIView+BHB.h"
+#import "BHBKit.h"
 #define iPhone7 ([[UIDevice currentDevice].systemVersion compare:@"6.1"] > 0)
 #endif

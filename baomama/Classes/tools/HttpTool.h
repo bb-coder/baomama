@@ -17,4 +17,8 @@ typedef void (^HttpFailureBlock)(NSError *error);
 
 //网络post请求
 + (void)postWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure;
+
+//请求融云账号
++ (void)rongCloudUserWithPath:(NSString *)path params:(NSDictionary *)params success:(HttpSuccessBlock)success failure:(HttpFailureBlock)failure;
+
 @end

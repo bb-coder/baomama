@@ -18,6 +18,7 @@
 @interface Dock : UIView
 #pragma mark 添加dockitem
 - (void)addItemWithIcon:(NSString *)icon andSelectedIcon:(NSString *) selectedIcon andTitle:(NSString *) title;
+- (void) click:(NSInteger) index;
 
 @property (weak,nonatomic) id<DockDelegate> delegate;
 @end

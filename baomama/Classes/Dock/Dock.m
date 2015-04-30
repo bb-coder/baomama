@@ -13,9 +13,20 @@
 {
     DockItem * _selectedItem;
 }
+
+@property (nonatomic,strong) NSMutableArray * items;
 @end
 
 @implementation Dock
+
+-(NSMutableArray *)items
+{
+    if(!_items){
+        _items = [NSMutableArray array];
+    }
+    return _items;
+}
+
 #pragma mark 添加dockitem
 -(void)addItemWithIcon:(NSString *)icon andSelectedIcon:(NSString *)selectedIcon andTitle:(NSString *)title
 {
@@ -25,20 +36,27 @@
     
     [item setTitle:title forState:UIControlStateNormal];
     [item addTarget:self action:@selector(itemClick:) forControlEvents:UIControlEventTouchDown];
+    
+    [self.items addObject:item];
     [self addSubview:item];
-    NSInteger count = [self subviews].count;
+    NSInteger count = self.items.count;
     if (count == 1) {
         BBLog(@"%ld",(long)count);
         [self itemClick:item];
     }
     CGSize size = self.bounds.size;
     for (int i = 0; i < count; i++) {
-        DockItem * itemf = [self subviews][i];
+        DockItem * itemf = self.items[i];
         itemf.tag = i;
         [itemf setFrame:CGRectMake(i * (size.width / count), 0,size.width / count, size.height)];
         
         [itemf setBackgroundImage:[UIImage imageNamed:kSelectedItemBack] forState:UIControlStateSelected];
     }
+}
+
+- (void) click:(NSInteger) index
+{
+    [self itemClick:self.items[index]];
 }
 
 #pragma mark 监听按钮点击事件
@@ -63,6 +81,10 @@
     return self;
 }
 
+-(void)dealloc
+{
+    NSLog(@"销毁了？？？");
+}
 
 
 @end

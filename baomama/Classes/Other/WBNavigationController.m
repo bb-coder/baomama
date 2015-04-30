@@ -7,6 +7,7 @@
 //
 
 #import "WBNavigationController.h"
+#import "UINavigationBar+BackGroudColor.h"
 
 @interface WBNavigationController ()
 
@@ -29,22 +30,35 @@
 {
     BOOL nightable = [[NSUserDefaults standardUserDefaults]boolForKey:@"nightable"];
     UINavigationBar * bar = [UINavigationBar appearance];
-    //设置nav背景颜色
-    if (nightable)
-        [bar setTintColor:kBgNightColor];
-    else
-        [bar setTintColor:kBgColor];
-    //设置字颜色和阴影
-    [bar setTitleTextAttributes:@{UITextAttributeTextColor:[UIColor blackColor],
-                                  UITextAttributeTextShadowOffset:[NSValue valueWithCGSize:CGSizeMake(0, 0)]}];
-#ifdef __IPHONE_7_0
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
-        if (nightable)
-            [bar setBarTintColor:kBgNightColor];
-        else
-            [bar setBarTintColor:kBgColor];
+    [bar setTintColor:[UIColor whiteColor]];
+    [bar setBarTintColor:[UIColor whiteColor]];
+    [bar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    if(nightable){
+        [bar bhb_setBackgroundColor:kBgNightColor];
+        
     }
-#endif
+    else
+    {
+        [bar bhb_setBackgroundColor:kBgColor];
+    }
+    
+    UINavigationBar * bar1 = self.navigationBar;
+    [bar1 setTintColor:[UIColor whiteColor]];
+    [bar1 setBarTintColor:[UIColor whiteColor]];
+    [bar1 setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    [bar1 setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    if(nightable){
+        [bar1 bhb_setBackgroundColor:kBgNightColor];
+        
+    }
+    else
+    {
+        [bar1 bhb_setBackgroundColor:kBgColor];
+    }
+
 
 }
 - (void)viewDidLoad
@@ -52,36 +66,33 @@
     [super viewDidLoad];
     //注册通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateNightable) name:@"nightable" object:nil];
-    BOOL nightable = [[NSUserDefaults standardUserDefaults]boolForKey:@"nightable"];
-    UINavigationBar * bar = [UINavigationBar appearance];
-    //设置nav背景颜色
-    if (nightable)
-        [bar setTintColor:kBgNightColor];
-    else
-        [bar setTintColor:kBgColor];
-    //设置字颜色和阴影
-    [bar setTitleTextAttributes:@{UITextAttributeTextColor:[UIColor blackColor],
-                                  UITextAttributeTextShadowOffset:[NSValue valueWithCGSize:CGSizeMake(0, 0)]}];
-#ifdef __IPHONE_7_0
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
-        if (nightable)
-            [bar setBarTintColor:kBgNightColor];
-        else
-            [bar setBarTintColor:kBgColor];
-    }
-#endif
-
-    
+    [self updateNightable];
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
+-(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [super pushViewController:viewController animated:animated];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"dockHide" object:nil];
+}
+
+-(UIViewController *)popViewControllerAnimated:(BOOL)animated
+{
+    if(self.viewControllers.count == 2)
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"dockShow" object:nil];
+    return [super popViewControllerAnimated:animated];
+}
+
+-(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if([self.viewControllers indexOfObject:viewController] == 1)
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"dockShow" object:nil];
+    return [super popToViewController:viewController animated:animated];
+}
+
+-(NSArray *)popToRootViewControllerAnimated:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"dockShow" object:nil];
+    return [super popToRootViewControllerAnimated:animated];
+}
 
 @end

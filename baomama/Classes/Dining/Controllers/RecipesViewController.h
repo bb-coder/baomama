@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "WaterFlowViewController.h"
-@interface RecipesViewController : WaterFlowViewController<WaterFlowViewDataSource,WaterFlowViewDelegate>
+@interface RecipesViewController : UIViewController
 
 @end

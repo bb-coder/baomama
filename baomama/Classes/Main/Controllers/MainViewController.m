@@ -8,12 +8,20 @@
 
 #import "MainViewController.h"
 #import "WBNavigationController.h"
-#import "LoreViewController.h"
+#import "LoreInfoViewController.h"
 #import "RecipesViewController.h"
 #import "SaveViewController.h"
 #import "SettingViewController.h"
 #import "FullBgImage.h"
+#import "ContactsViewController.h"
+#import "MessageViewController.h"
+#import "RCIM.h"
+#import "LoreViewController.h"
+
 @interface MainViewController ()
+
+@property (nonatomic,strong) MessageViewController * msgVc;
+
 @end
 
 @implementation MainViewController
@@ -21,7 +29,7 @@
 -(void)updateNightable
 {
     //模拟一次点击
-    [self dockItemClick:_dock from:3 to:3];
+    [self dockItemClick:_dock from:4 to:4];
     [self viewWillAppear:NO];
     
 }
@@ -33,7 +41,14 @@
     else
         [_dock setBackgroundColor:kBgColor];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[FullBgImage bgImage]]];
+    
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,36 +60,59 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateNightable) name:@"nightable" object:nil];
     
 }
+
+
 #pragma mark 添加DockItems
 - (void) addDockItems
 {
-    [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"常识"];
-    [_dock addItemWithIcon:@"dining.png" andSelectedIcon:@"dining_selected.png" andTitle:@"食谱"];
+    [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"消息"];
+//    [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"联系人"];
+    [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"资讯"];
+    [_dock addItemWithIcon:@"dining.png" andSelectedIcon:@"dining_selected.png" andTitle:@"回忆"];
     [_dock addItemWithIcon:@"save.png" andSelectedIcon:@"save_selected.png" andTitle:@"收藏"];
     [_dock addItemWithIcon:@"seting.png" andSelectedIcon:@"seting_selected.png" andTitle:@"设置"];
 }
 #pragma mark 初始化所有控制器
 - (void) addControllers
 {
-    //常识
+    //聊天
     WBNavigationController * nav1 = [[WBNavigationController alloc]init];
-    LoreViewController * lore = [[LoreViewController alloc]init];
-    [nav1 addChildViewController:lore];
+    // 创建会话列表视图控制器。
+    self.msgVc = [[MessageViewController alloc]init];
+    [RCIM setUserInfoFetcherWithDelegate:self.msgVc isCacheUserInfo:YES];
+    [RCIM setFriendsFetcherWithDelegate:self.msgVc];
+//    RCChatListViewController *chatListViewController = [[RCIM sharedRCIM]createConversationList:^(){
+//        // 创建 ViewController 后，调用的 Block，可以用来实现自定义行为。
+//    }];
+
+    MessageViewController * message = self.msgVc;
+    [nav1 addChildViewController:message];
     [self addChildViewController:nav1];
+//    //联系人
+//    WBNavigationController * nav2 = [[WBNavigationController alloc]init];
+//    ContactsViewController * contact = [[ContactsViewController alloc]init];
+//    [nav2 addChildViewController:contact];
+//    [self addChildViewController:nav2];
+    
+    //常识
+    WBNavigationController * nav3 = [[WBNavigationController alloc]init];
+    LoreViewController * lore = [[LoreViewController alloc]init];
+    [nav3 addChildViewController:lore];
+    [self addChildViewController:nav3];
     //食谱
     RecipesViewController * recipes = [[RecipesViewController alloc]init];
     [self addChildViewController:recipes];
     //收藏
-    WBNavigationController * nav3 = [[WBNavigationController alloc]init];
-    SaveViewController * save = [[SaveViewController alloc]init];
-    [nav3 addChildViewController:save];
-    [self addChildViewController:nav3];
-    //设置
     WBNavigationController * nav4 = [[WBNavigationController alloc]init];
-    SettingViewController * setting = [[SettingViewController alloc]initWithStyle:UITableViewStylePlain];
-    [nav4 addChildViewController:setting];
+    SaveViewController * save = [[SaveViewController alloc]init];
+    [nav4 addChildViewController:save];
     [self addChildViewController:nav4];
-
+    //设置
+    WBNavigationController * nav5 = [[WBNavigationController alloc]init];
+    SettingViewController * setting = [[SettingViewController alloc]initWithStyle:UITableViewStylePlain];
+    [nav5 addChildViewController:setting];
+    [self addChildViewController:nav5];
+    
 }
 
 

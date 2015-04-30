@@ -7,7 +7,7 @@
 //
 
 #import "NewFeatureViewController.h"
-#import "LoreViewController.h"
+#import "LoreInfoViewController.h"
 #import "MainViewController.h"
 #define kLabelText1 @"从此刻开始关注"
 #define klabelText2 @"您和宝宝的健康"

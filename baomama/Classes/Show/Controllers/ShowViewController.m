@@ -47,7 +47,7 @@
             [_imageView setImage:recipes.image];
         }
         else
-            [_imageView setImageWithURL:url];
+            [_imageView sd_setImageWithURL:url];
         _webView.frame = CGRectMake(0, y + 200, self.view.frame.size.width, self.view.frame.size.height - 200 -y);
         UIScrollView * scroll = [_webView subviews][0];
         scroll.delegate = self;
@@ -72,7 +72,7 @@
             [_imageView setImage:lore.image];
         }
         else
-            [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"place.jpg"]];
+            [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"place.jpg"]];
         _webView.frame = CGRectMake(0, y + 200, self.view.frame.size.width, self.view.frame.size.height - 200 -y);
         UIScrollView * scroll = [_webView subviews][0];
         scroll.delegate = self;

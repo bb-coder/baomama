@@ -7,11 +7,13 @@
 //
 
 #import "DockViewController.h"
-#define kDockHeight 44
-@interface DockViewController ()
+#define kDockHeight 49
+@interface DockViewController ()<UITabBarControllerDelegate>
+
 @end
 
 @implementation DockViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,45 +29,63 @@
     [super viewDidLoad];
     //添加dock
     [self addDock];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dockHide) name:@"dockHide" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dockShow) name:@"dockShow" object:nil];
 }
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"dockHide" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"dockShow" object:nil];
+}
+
+-(void)dockHide
+{
+    [UIView animateWithDuration:0.25 animations:^{
+//        _dock.hidden = YES;
+        if(_dock.y < self.view.height)
+        _dock.y += kDockHeight;
+    }];
+}
+
+-(void)dockShow
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        if(_dock.y >= self.view.height)
+        _dock.y -= kDockHeight;
+    }];
+}
+
 
 #pragma mark 添加dock
 - (void)addDock
 {
-    Dock * dock = [[Dock alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - kDockHeight, self.view.frame.size.width, kDockHeight)];
+//    Dock * dock = [[Dock alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - kDockHeight, self.view.frame.size.width, kDockHeight)];
+    Dock * dock = [[Dock alloc]initWithFrame:self.tabBar.frame];
+    self.tabBar.hidden = YES;
+    [self.view addSubview:dock];
+    
     dock.delegate = self;
     _dock = dock;
-    [self.view addSubview:_dock];
 }
 #pragma mark dock代理方法
 -(void)dockItemClick:(Dock *)dock from:(int)from to:(int)to
 {
-    if (to < 0 || to > self.childViewControllers.count) {
-        return ;
-    }
-    UIViewController * oldVC = self.childViewControllers[from];
-    UIViewController * newVC = self.childViewControllers[to];
-    CGFloat width = self.view.bounds.size.width;
-    CGFloat height = self.view.bounds.size.height - kDockHeight;
-    newVC.view.frame = CGRectMake(0, 0, width, height);
-    [oldVC.view removeFromSuperview];
-    [self.view addSubview:newVC.view];
+//    if (to < 0 || to > self.childViewControllers.count) {
+//        return ;
+//    }
+//    UIViewController * oldVC = self.childViewControllers[from];
+//    UIViewController * newVC = self.childViewControllers[to];
+//    CGFloat width = self.view.bounds.size.width;
+//    CGFloat height;
+//
+//    height = self.view.bounds.size.height - kDockHeight;
+//    newVC.view.frame = CGRectMake(0, 0, width, height);
+//    [oldVC.view removeFromSuperview];
+//    [self.view addSubview:newVC.view];
+    self.selectedIndex = to;
+    self.tabBar.hidden = YES;
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
