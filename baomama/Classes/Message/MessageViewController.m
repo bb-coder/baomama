@@ -8,35 +8,40 @@
 
 #import "MessageViewController.h"
 #import "UINavigationBar+BackGroudColor.h"
+#import "ZBarSDK.h"
+#import "ReaderQRViewController.h"
+#import "ZBarReaderView.h"
+#import "RCChatViewController.h"
 
-@interface MessageViewController ()
+@interface MessageViewController ()<ZBarReaderDelegate>
+
+
 
 @end
 
 @implementation MessageViewController
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refreshChatListView];
+    
+}
+
 -(void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion
 {
     // 此处最终代码逻辑实现需要您从本地缓存或服务器端获取用户信息。
     
-    if ([@"1" isEqual:userId]) {
-        RCUserInfo *user = [[RCUserInfo alloc]init];
-        user.userId = @"1";
-        user.name = @"韩梅梅";
-        user.portraitUri = @"http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png";
-        
-        return completion(user);
-    }
-    
-    if ([@"bhbwudi" isEqual:userId]) {
-        RCUserInfo *user = [[RCUserInfo alloc]init];
-        user.userId = @"3";
-        user.name = @"李雷";
-        user.portraitUri = @"http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png";
-        
-        return completion(user);
-    }
-    
+    [[FMDBTool queue] inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select * from FRIENDS where userId = ?",userId];
+        while (rs.next) {
+            RCUserInfo * user = [[RCUserInfo alloc]init];
+            user.userId = [rs stringForColumn:@"userId"];
+            user.name = [rs stringForColumn:@"name"];
+            [rs close];
+            return completion(user);
+        }
+    }];
     return completion(nil);
 }
 
@@ -44,25 +49,33 @@
 {
     NSMutableArray *array = [[NSMutableArray alloc]init];
     
-    RCUserInfo *user1 = [[RCUserInfo alloc]init];
-    user1.userId = @"1";
-    user1.name = @"韩梅梅";
-    user1.portraitUri = @"http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png";
-    [array addObject:user1];
-    
-//    RCUserInfo *user2 = [[RCUserInfo alloc]init];
-//    user2.userId = @"2";
-//    user2.name = @"李雷";
-//    user2.portraitUri = @"http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png";
-//    [array addObject:user2];
-    
+    [[FMDBTool queue] inDatabase:^(FMDatabase *db) {
+        FMResultSet * rs = [db executeQuery:@"select * from FRIENDS"];
+        while (rs.next) {
+            RCUserInfo * user = [[RCUserInfo alloc]init];
+            user.userId = [rs stringForColumn:@"userId"];
+            user.name = [rs stringForColumn:@"name"];
+            [array addObject:user];
+        }
+        [rs close];
+    }];
     return array;
+}
+
+-(void)addChatController:(UIViewController *)controller
+{
+    RCChatViewController * chat = (RCChatViewController *)controller;
+    [super addChatController:controller];
+    chat.enablePOI = NO;
 }
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
 
+//    生成二维码
+//    [QRCodeGenerator qrImageForString:@"123" imageSize:100];
+    
     [self setNavigationTitle:@"消息" textColor:[UIColor whiteColor]];
     UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 0, 75, 44);
@@ -75,7 +88,40 @@
 
 - (void)addFriend
 {
-    BBLog(@"添加好友");
+
+    
+//    ZBarReaderViewController *reader = [[ZBarReaderViewController alloc] init];
+//    reader.readerDelegate = self;
+//    reader.supportedOrientationsMask = ZBarOrientationMaskAll;
+//    
+//    ZBarImageScanner *scanner = reader.scanner;
+//    
+//    [scanner setSymbology: ZBAR_I25
+//                   config: ZBAR_CFG_ENABLE
+//                       to: 0];
+    ReaderQRViewController * reader = [[ReaderQRViewController alloc]init];
+    
+    [self presentViewController:reader animated:YES completion:nil];
 }
+
+//- (void) imagePickerController: (UIImagePickerController*) reader
+// didFinishPickingMediaWithInfo: (NSDictionary*) info
+//{
+//    id<NSFastEnumeration> results =
+//    [info objectForKey: ZBarReaderControllerResults];
+//    ZBarSymbol *symbol = nil;
+//    for(symbol in results)
+//        break;
+//    
+//    BBLog(@"%@",[info objectForKey: UIImagePickerControllerOriginalImage]);
+//    [reader dismissViewControllerAnimated:YES completion:nil];
+//    
+//    NSLog(@"%@",symbol.data);
+//    
+//}
+
+
+
+
 
 @end

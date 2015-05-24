@@ -29,18 +29,18 @@
 -(void)updateNightable
 {
     //模拟一次点击
-    [self dockItemClick:_dock from:4 to:4];
-    [self viewWillAppear:NO];
-    
-}
--(void)viewWillAppear:(BOOL)animated
-{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"nightable"]) {
         [_dock setBackgroundColor:kBgNightColor];
     }
     else
         [_dock setBackgroundColor:kBgColor];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[FullBgImage bgImage]]];
+    
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self updateNightable];
+    [super viewWillAppear:animated];
     
 }
 
@@ -56,8 +56,14 @@
     [self addControllers];
     //添加dock中的按钮
     [self addDockItems];
+    //默认选中2item
+//    [self dockItemClick:_dock from:1 to:1];
+    
     //注册通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateNightable) name:@"nightable" object:nil];
+    
+    [_dock click:1];
+    
     
 }
 
@@ -65,10 +71,9 @@
 #pragma mark 添加DockItems
 - (void) addDockItems
 {
-    [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"消息"];
-//    [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"联系人"];
+    [_dock addItemWithIcon:@"messege.png" andSelectedIcon:@"messege_selected.png" andTitle:@"消息"];
     [_dock addItemWithIcon:@"knowlege.png" andSelectedIcon:@"knowlege_selected.png" andTitle:@"资讯"];
-    [_dock addItemWithIcon:@"dining.png" andSelectedIcon:@"dining_selected.png" andTitle:@"回忆"];
+    [_dock addItemWithIcon:@"dining.png" andSelectedIcon:@"dining_selected.png" andTitle:@"食谱"];
     [_dock addItemWithIcon:@"save.png" andSelectedIcon:@"save_selected.png" andTitle:@"收藏"];
     [_dock addItemWithIcon:@"seting.png" andSelectedIcon:@"seting_selected.png" andTitle:@"设置"];
 }
@@ -109,7 +114,7 @@
     [self addChildViewController:nav4];
     //设置
     WBNavigationController * nav5 = [[WBNavigationController alloc]init];
-    SettingViewController * setting = [[SettingViewController alloc]initWithStyle:UITableViewStylePlain];
+    SettingViewController * setting = [[SettingViewController alloc]init];
     [nav5 addChildViewController:setting];
     [self addChildViewController:nav5];
     

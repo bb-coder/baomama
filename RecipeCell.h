@@ -13,5 +13,7 @@
 @property (copy, nonatomic) NSString * imageUrlStr;
 
 @property (copy, nonatomic) NSString * textDescription;
+@property (nonatomic,weak) UIImageView * iconImageView;
+
 
 @end

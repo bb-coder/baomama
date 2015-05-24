@@ -12,6 +12,24 @@
 @implementation SaveTool
 kSingletonImplements(SaveTool)
 #pragma mark 保存任意数据
+
+-(BOOL)saveImage:(UIImage *)image forKey:(NSString *)key
+{
+    NSArray * doc = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString * path = doc[0];
+    path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",key]];
+    [NSKeyedArchiver archiveRootObject:image toFile:path];
+    return YES;
+}
+
+-(UIImage *)getImageWithKey:(NSString *)key
+{
+    NSArray * doc = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString * path = doc[0];
+    path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",key]];
+   return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+}
+
 -(BOOL)saveLore:(Lore *)lore forKey:(NSString *)key
 {
     NSArray * array = [self getDataArrayFromKey:key];

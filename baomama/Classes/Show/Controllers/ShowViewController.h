@@ -7,6 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface ShowViewController : UIViewController<UIScrollViewDelegate>
+@interface ShowViewController : BaseViewController<UIScrollViewDelegate>
 -(void)loadDataWithObeject:(id) object;
 @end

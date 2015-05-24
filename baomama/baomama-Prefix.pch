@@ -19,5 +19,13 @@
 #import "UIImageView+WebCache.h"
 #import "UIView+BHB.h"
 #import "BHBKit.h"
+#import "BaseTableViewController.h"
+#import "BaseViewController.h"
+#import "Masonry.h"
+#import "FMDB.h"
+#import "ZBarSDK.h"
+#import "AccountTool.h"
+#import "FMDBTool.h"
+
 #define iPhone7 ([[UIDevice currentDevice].systemVersion compare:@"6.1"] > 0)
 #endif

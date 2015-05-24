@@ -121,6 +121,11 @@
     
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"nightable" object:nil];
+}
+
 -(void)backView
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -154,17 +159,40 @@
 //                                                 title:@"查看"];
 
         cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:myCell containingTableView:tableView indexPath:indexPath leftUtilityButtons:nil rightUtilityButtons:rightUtilityButtons];
-        cell.imageView.layer.cornerRadius = 6;
-        cell.imageView.layer.masksToBounds = YES;
+        UILabel * textTitle = [[UILabel alloc]init];
+        textTitle.frame = CGRectMake(100, 0, cell.contentView.width - 100, 100);
+        textTitle.tag = 1006;
+        textTitle.numberOfLines = 0;
+        [cell.contentView addSubview:textTitle];
+        
+        UIImageView * imageView = [[UIImageView alloc]init];
+        
+        imageView.layer.cornerRadius = 6;
+        imageView.layer.masksToBounds = YES;
         cell.textLabel.numberOfLines = 0;
-        cell.imageView.frame = CGRectMake(0, 0, 100, 100);
-        cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.frame = CGRectMake(0, 0, 100, 100);
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         cell.delegate = self;
+        imageView.tag = 1005;
+        [cell.contentView addSubview:imageView];
     }
     Lore * lore = _loreArray[indexPath.row];
-    [cell.textLabel setText:lore.title];
+    
     NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseImagePath,lore.img]];
-    [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"place.jpg"] options:SDWebImageLowPriority|SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *imageURL) {
+    UIImageView * iv;
+    UILabel * lbl;
+    for (UIView * v in cell.contentView.subviews) {
+        if([v isKindOfClass:[UIImageView class]] && v.tag == 1005)
+        {
+            iv = (UIImageView *)v;
+        }
+        if([v isKindOfClass:[UILabel class]] && v.tag == 1006)
+        {
+            lbl = (UILabel *)v;
+        }
+    }
+    [lbl setText:lore.title];
+    [iv sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"place.jpg"] options:SDWebImageLowPriority|SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *imageURL) {
         lore.image = image;
     }];
     cell.backgroundColor = _colorState;

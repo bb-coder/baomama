@@ -17,6 +17,7 @@
 #import "DiningTool.h"
 #import "RecipeCell.h"
 #import "MKMasonryViewLayout.h"
+#import "MJRefresh.h"
 
 @interface RecipesViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,MKMasonryViewLayoutDelegate>
 {
@@ -47,9 +48,8 @@
         _diningArray = [NSMutableArray array];
     }
     [DiningTool getDiningDataWithPage:_page andCaIndex:_index andCompleteBlock:^(NSArray *recipes) {
-        NSLog(@"%@",recipes);
-    }];
-    [DiningTool getDiningDataWithPage:_page andCaIndex:_index andCompleteBlock:^(NSArray *recipes) {
+        if(_page == 1)
+            [_diningArray removeAllObjects];
         [_diningArray addObjectsFromArray:recipes];
         if (recipes.count > 0)
          {
@@ -70,7 +70,8 @@
 
          }
         [self.collectionView reloadData];
-         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.collectionView headerEndRefreshing];
+        [self.collectionView footerEndRefreshing];
          self.isLoadingData = NO;
          _page++;
     }];
@@ -80,20 +81,19 @@
 -(void)loadView
 {
     [super loadView];
-    _page = 1;
-    //加载网络数据
-    [self loadHttpData];
-    //添加集合视图
-    [self addCollectionView];
+    
     
 }
 
 - (void)addCollectionView
 {
     MKMasonryViewLayout * layout = [[MKMasonryViewLayout alloc]init];
-    UICollectionView * coView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
+    UICollectionView * coView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height - 49) collectionViewLayout:layout];
+    coView.backgroundColor = [UIColor clearColor];
+
     [coView registerClass:[RecipeCell class] forCellWithReuseIdentifier:@"coCell"];
     [self.view addSubview:coView];
+    self.collectionView = coView;
     coView.delegate = self;
     coView.dataSource = self;
 }
@@ -104,11 +104,42 @@
     //设置顶部20像素距离，空出状态栏
 //    if (iPhone7)
 //        [self.waterFlowView setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
-    //定义指示器
-    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"正在努力加载...";
-    hud.dimBackground = YES;
+    _page = 1;
+    _index = 1;
+    //添加集合视图
+    [self addCollectionView];
+    //加载网络数据
+//    [self loadHttpData];
     
+    [self setupRefresh];
+    
+}
+
+/**
+ *  集成刷新控件
+ */
+- (void)setupRefresh
+{
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [self.collectionView addHeaderWithTarget:self action:@selector(headerRereshing)];
+    [self.collectionView headerBeginRefreshing];
+    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
+    [self.collectionView addFooterWithTarget:self action:@selector(footerRereshing)];
+}
+
+#pragma mark 开始进入刷新状态
+- (void)headerRereshing
+{
+    if (_isLoadingData) {
+        return;
+    }
+    _page = 1;
+    [self loadHttpData];
+}
+
+- (void)footerRereshing
+{
+    [self loadHttpData];
 }
 
 #pragma - collectionDelegate and dataSource
@@ -130,13 +161,30 @@
     Recipes * r = self.diningArray[indexPath.row];
     cell.imageUrlStr = r.img;
     cell.textDescription = r.name;
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseImagePath,r.img]] placeholderImage:[UIImage imageNamed:@"place.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        r.image = image;
+    }];
+    
     return cell;
 }
+
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(MKMasonryViewLayout *)layout heightForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     Recipes * r = self.diningArray[indexPath.row];
-    return 100;
+    CGFloat fullWidth = self.collectionView.frame.size.width;
+    CGFloat availableSpaceExcludingPadding = fullWidth - (12.5 * (3 + 1));
+    CGFloat itemWidth = availableSpaceExcludingPadding / 3;
+    
+    return r.h * itemWidth / r.w;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    Recipes * r = self.diningArray[indexPath.row];
+    ShowViewController * sv = [[ShowViewController alloc]init];
+    [self presentViewController:sv animated:YES completion:nil];
+    [sv loadDataWithObeject:r];
 }
 
 

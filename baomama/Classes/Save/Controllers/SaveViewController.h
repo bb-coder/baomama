@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SWTableViewCell.h"
-@interface SaveViewController : UITableViewController<SWTableViewCellDelegate,UINavigationControllerDelegate>
+@interface SaveViewController : BaseTableViewController<SWTableViewCellDelegate,UINavigationControllerDelegate>
 
 @end

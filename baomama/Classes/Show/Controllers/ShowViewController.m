@@ -9,11 +9,14 @@
 #import "ShowViewController.h"
 #import "HttpTool.h"
 #import "Recipes.h"
+#import "SaveTool.h"
 #import "Lore.h"
 @interface ShowViewController ()
 {
     UIImageView * _imageView;
     UIWebView * _webView;
+    UIButton * _saveBtn;
+    id _object;
 }
 @end
 
@@ -30,7 +33,7 @@
 #pragma mark 加载Show视图数据
 -(void)loadDataWithObeject:(id)object
 {
-    
+    _object = object;
     if ([object isKindOfClass:[Recipes class]]) {
         Recipes * recipes = object;
         _webView = [[UIWebView alloc]init];
@@ -83,10 +86,50 @@
     [_imageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(save:)];
     [_imageView addGestureRecognizer:tap];
+    
+    
+    _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _saveBtn.frame = CGRectMake(320 - 70, 20, 50, 50);
+    [_saveBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [_saveBtn addTarget:self action:@selector(saveObject) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_saveBtn];
+    [self.view bringSubviewToFront:_saveBtn];
+    
 }
 -(void) save:(UISwipeGestureRecognizer *)tap
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)saveObject
+{
+    BOOL success;
+    if ([_object isKindOfClass:[Recipes class]]) {
+        
+        success = [[SaveTool sharedSaveTool] saveRecipes:_object forKey:@"recipes"];
+    }
+    else if ([_object isKindOfClass:[Lore class]])
+    {
+       success = [[SaveTool sharedSaveTool] saveRecipes:_object forKey:@"lore"];
+    }
+    
+    NSString * title = nil;
+    NSString * message = nil;
+    NSString * btnTitle = nil;
+    if (success){
+        title = @"收藏成功";
+        message = @"美女，您收藏成功了，可以去收藏查看您的最新收藏！";
+        btnTitle = @"知道了";
+    }
+    else
+    {
+        title = @"收藏失败";
+        message = @"囧，美女，这个您早就收藏过了！";
+        btnTitle = @"知道了";
+    }
+    UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:btnTitle otherButtonTitles: nil];
+    [alertTest show];
+    
 }
 
 #pragma mark webview下scrollview代理方法

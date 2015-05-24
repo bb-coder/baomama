@@ -40,10 +40,10 @@
     [self.items addObject:item];
     [self addSubview:item];
     NSInteger count = self.items.count;
-    if (count == 1) {
-        BBLog(@"%ld",(long)count);
-        [self itemClick:item];
-    }
+//    if (count == 1) {
+//        BBLog(@"%ld",(long)count);
+//        [self itemClick:item];
+//    }
     CGSize size = self.bounds.size;
     for (int i = 0; i < count; i++) {
         DockItem * itemf = self.items[i];

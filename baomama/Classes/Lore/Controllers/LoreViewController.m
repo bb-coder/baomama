@@ -11,6 +11,9 @@
 #import "LoreTool.h"
 #import "BHBButtonListView.h"
 #import "LoreInfoViewController.h"
+#import "ShowViewController.h"
+#import "IconButton.h"
+#import "UINavigationBar+BackGroudColor.h"
 
 
 
@@ -45,7 +48,7 @@
     [super viewDidLoad];
     
     titleArr = @[@"老人健康",@"孩子健康",@"健康饮食",@"男性健康",@"女性保养",@"孕婴手册"];
-    self.title = @"资讯";
+//    self.title = @"资讯";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor lightGrayColor];
     
@@ -55,6 +58,9 @@
         self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+        self.navigationController.navigationBar.hidden = YES;
+//        [self.navigationController.navigationBar bhb_setBackgroundColor:[UIColor clearColor]];
+        
     }
     
     //添加顶部滚动视图
@@ -76,9 +82,12 @@
     
     
     
-    NSArray * colorArr = @[[UIColor purpleColor],[UIColor yellowColor],[UIColor greenColor],[UIColor blueColor],[UIColor redColor],[UIColor grayColor]];
+    NSArray * colorArr = @[[UIColor purpleColor],[UIColor brownColor],[UIColor greenColor],[UIColor blueColor],[UIColor redColor],[UIColor grayColor]];
     for (int i = 0; i < 6; i++) {
-        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        IconButton * btn = [IconButton buttonWithType:UIButtonTypeCustom];
+        [btn setImage:[UIImage imageNamed:titleArr[i]] forState:UIControlStateNormal];
+        btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        btn.titleLabel.textAlignment = NSTextAlignmentCenter;
         [btn setBackgroundColor:[UIColor whiteColor]];
         [btn setTitleColor:colorArr[i] forState:UIControlStateNormal];
         [btn setTitle:titleArr[i] forState:UIControlStateNormal];
@@ -101,6 +110,7 @@
     UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setBackgroundColor:[UIColor whiteColor]];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"刷新"] forState:UIControlStateNormal];
     [btn setTitle:@"换一换" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(random) forControlEvents:UIControlEventTouchUpInside];
     btn.frame = CGRectMake(0, self.topView.y + self.topView.height + self.view.height * 0.015, self.topView.width, self.view.height * 0.07);
@@ -131,6 +141,15 @@
         self.topView.totalPagesCount = ^NSInteger(){
             return self.topAdArray.count;
         };
+        self.topView.TapActionBlock = ^(NSInteger pageIndex){
+            
+            Lore * l = self.topAdArray[pageIndex];
+            ShowViewController * show = [[ShowViewController alloc]init];
+            [show loadDataWithObeject:l];
+            [self presentViewController:show animated:YES completion:nil];
+            
+        };
+        
         self.topView.fetchContentViewAtIndex = ^(NSInteger pageIndex){
             Lore * l = self.topAdArray[pageIndex];
             UIImageView * imgv = [[UIImageView alloc]initWithFrame:self.topView.bounds];

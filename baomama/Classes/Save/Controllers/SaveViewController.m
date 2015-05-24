@@ -54,6 +54,8 @@
     [self setTitle:@"收藏"];
     //注册通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateNightable) name:@"nightable" object:nil];
+    
+    self.tableView.tableFooterView = [[UIView alloc]init];
 }
 
 

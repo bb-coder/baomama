@@ -6,9 +6,10 @@
 //  Copyright (c) 2014年 bb_coder. All rights reserved.
 //
 
+#import "RongCloudTool.h"
 #import "DockViewController.h"
 #define kDockHeight 49
-@interface DockViewController ()<UITabBarControllerDelegate>
+@interface DockViewController ()<UITabBarControllerDelegate,UIAlertViewDelegate>
 
 @end
 
@@ -84,8 +85,52 @@
 //    newVC.view.frame = CGRectMake(0, 0, width, height);
 //    [oldVC.view removeFromSuperview];
 //    [self.view addSubview:newVC.view];
+    
+    
+    if (to == 0 || to == 4) {
+        BBLog(@"------------%d",to);
+        if (![AccountTool sharedAccountTool].name) {
+            UIAlertView * av = [[UIAlertView alloc]initWithTitle:@"登录" message:@"美女给自己起个美美哒名字吧～！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            av.alertViewStyle = UIAlertViewStylePlainTextInput;
+            [av show];
+        }
+    }
+    
+//    [RongCloudTool loginWithUserId:@"1" andName:@"韩梅梅" andHeaderImageUrlStr:nil andBlock:^{
+//        BBLog(@"登陆成功！！");
+//    }];
     self.selectedIndex = to;
     self.tabBar.hidden = YES;
 }
+
+-(BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    UITextField * text = [alertView textFieldAtIndex:0];
+    if (![text.text isEmpty]) {
+
+        return YES;
+    }
+    return NO;
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UITextField * text = [alertView textFieldAtIndex:0];
+    BBLog(@"%@",text.text);
+    NSString * now = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
+    [AccountTool sharedAccountTool].name = text.text;
+    [AccountTool sharedAccountTool].userId = [NSString stringWithFormat:@"%@:%@",text.text,now];
+    
+    [RongCloudTool loginWithUserId:[AccountTool sharedAccountTool].userId andName:[AccountTool sharedAccountTool].name andHeaderImageUrlStr:nil andBlock:^{
+        BBLog(@"登陆成功！！");
+    }];
+    
+    [[FMDBTool queue] inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:@"insert into USERS(name,userId) values(?,?)",[AccountTool sharedAccountTool].name,[AccountTool sharedAccountTool].userId];
+    }];
+    
+}
+
+
 
 @end

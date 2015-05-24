@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoreViewController : UIViewController
+@interface LoreViewController : BaseViewController
 
 @end

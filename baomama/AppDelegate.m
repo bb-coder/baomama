@@ -12,6 +12,8 @@
 #import "MainViewController.h"
 #import "RongCloudTool.h"
 #import "RCIM.h"
+#import "FMDBTool.h"
+#import "AccountTool.h"
 
 @implementation AppDelegate
 
@@ -41,24 +43,44 @@
     [self.window makeKeyAndVisible];
     
     
-    
+
     
     
     // 初始化 SDK，传入 App Key，deviceToken 暂时为空，等待获取权限。
     [RCIM initWithAppKey:@"3argexb6r9uze" deviceToken:nil];
     
-    [RongCloudTool loginWithUserId:@"1" andName:@"韩梅梅" andHeaderImageUrlStr:nil andBlock:^{
-        BBLog(@"登陆成功！！");
-        if ([currentVersion isEqualToString:saveVersion]) {
-            [UIApplication sharedApplication].statusBarHidden = NO;
-            self.window.rootViewController = [[MainViewController alloc]init];
-        }else
-        {
-            [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:key];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            self.window.rootViewController = [[NewFeatureViewController alloc] init];
-        }
+    FMDatabaseQueue * qu = [FMDBTool queue];
+    
+    __block BOOL isHasFriends = NO;
+    [qu inDatabase:^(FMDatabase *db) {
+        
+        FMResultSet * rs = [db executeQuery:@"select * from FRIENDS"];
+        isHasFriends = rs.next;
+        [rs close];
     }];
+    
+    if (!isHasFriends) {
+        [qu inDatabase:^(FMDatabase *db) {
+            [db executeUpdate:@"insert into FRIENDS(name,userId) values(?,?)",@"李雷",@"李雷:0"];
+            [db executeUpdate:@"insert into FRIENDS(name,userId) values(?,?)",@"张三",@"张三:0"];
+        }];
+    }
+    
+    [qu inDatabase:^(FMDatabase *db) {
+       FMResultSet * rs = [db executeQuery:@"select * from USERS"];
+        if (rs.next) {
+            [AccountTool sharedAccountTool].name = [rs stringForColumn:@"name"];
+            [AccountTool sharedAccountTool].userId = [rs stringForColumn:@"userId"];
+            [AccountTool sharedAccountTool].img = [rs stringForColumn:@"img"];
+            
+        [RongCloudTool loginWithUserId:[AccountTool sharedAccountTool].userId andName:[AccountTool sharedAccountTool].name andHeaderImageUrlStr:[AccountTool sharedAccountTool].img andBlock:^{
+                BBLog(@"登陆成功！！");
+            }];
+        }
+        [rs close];
+    }];
+    
+    
 #ifdef __IPHONE_8_0
     // 在 iOS 8 下注册苹果推送，申请推送权限。
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge

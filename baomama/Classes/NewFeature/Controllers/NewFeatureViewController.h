@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewFeatureViewController : UIViewController
+@interface NewFeatureViewController : BaseViewController
 
 @end

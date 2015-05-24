@@ -17,4 +17,7 @@ kSingletonInterface(SaveTool)
 -(NSArray *)getDataArrayFromKey:(NSString *)key;
 -(void)deleteLore:(Lore *)lore forKey:(NSString *)key;
 -(void)deleteRecipes:(Recipes *)recipes forKey:(NSString *)key;
+
+-(BOOL)saveImage:(UIImage *)image forKey:(NSString *)key;
+-(UIImage *)getImageWithKey:(NSString *)key;
 @end

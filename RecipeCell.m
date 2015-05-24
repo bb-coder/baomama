@@ -10,7 +10,7 @@
 
 @interface RecipeCell ()
 
-@property (nonatomic,weak) UIImageView * iconImageView;
+
 
 @property (nonatomic,weak) UILabel * textDescriptionLabel;
 
@@ -30,13 +30,22 @@
 -(void)setTextDescription:(NSString *)textDescription
 {
     _textDescription = textDescription;
-    if (!self.textDescription) {
+    if (!self.textDescriptionLabel) {
         UILabel * label = [[UILabel alloc]init];
-        label.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-        label.frame = CGRectMake(0, self.height - 20, self.width, 20);
+        label.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:12];
         [self.contentView addSubview:label];
         self.textDescriptionLabel = label;
     }
+//    self.textDescriptionLabel.frame = CGRectMake(0, self.height - 20, self.width, 20);
+    [self.textDescriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIView * superView = self.contentView;
+        make.leading.equalTo(superView.mas_leading);
+        make.trailing.equalTo(superView.mas_trailing);
+        make.height.mas_equalTo(20);
+        make.bottom.equalTo(superView.mas_bottom);
+    }];
     self.textDescriptionLabel.text = textDescription;
     
 }
@@ -46,11 +55,22 @@
     _imageUrlStr = imageUrlStr;
     if (!self.iconImageView) {
         UIImageView * imageView = [[UIImageView alloc]init];
-        imageView.frame = self.contentView.bounds;
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:imageView];
         self.iconImageView = imageView;
     }
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:_imageUrlStr] placeholderImage:[UIImage imageNamed:@"place"]];
+    self.iconImageView.frame = self.contentView.bounds;
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIView * superView = self.contentView;
+        make.leading.equalTo(superView.mas_leading);
+        make.trailing.equalTo(superView.mas_trailing);
+        make.top.equalTo(superView.mas_top);
+        make.bottom.equalTo(superView.mas_bottom);
+    }];
+
+//    BBLog(@"%@",NSStringFromCGRect(self.iconImageView.frame));
+//    [self.iconImageView setImage:[UIImage imageNamed:@"place.jpg"]];
+    
     
 }
 

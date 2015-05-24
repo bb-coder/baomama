@@ -8,13 +8,19 @@
 
 #import "SettingViewController.h"
 #import "WBNavigationController.h"
+#import "RKCardView.h"
 #import <StoreKit/StoreKit.h>
+#import "SaveTool.h"
 
-@interface SettingViewController ()<SKStoreProductViewControllerDelegate>
+@interface SettingViewController ()<SKStoreProductViewControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     UITextView * _textView;//免责声明
     UIColor * _colorState;//颜色状态
 }
+
+@property (nonatomic,strong)UITableView * tableView;
+@property (nonatomic,weak) RKCardView* cardView;
+
 @end
 
 @implementation SettingViewController
@@ -26,6 +32,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    self.cardView.titleLabel.text = [AccountTool sharedAccountTool].name;
     if ([[NSUserDefaults standardUserDefaults]boolForKey:@"nightable"]) {
         self.tableView.backgroundColor = [UIColor lightGrayColor];
         _colorState = [UIColor lightGrayColor];
@@ -36,14 +43,36 @@
         
         _colorState = [UIColor whiteColor];
     }
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
     
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    RKCardView* cardView= [[RKCardView alloc]initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height)];
+    self.cardView = cardView;
+    
+    cardView.coverImageView.image = [UIImage imageNamed:@"exampleCover"];
+    cardView.profileImageView.image = [UIImage imageNamed:@"exampleProfile"];
+    cardView.titleLabel.text = [AccountTool sharedAccountTool].name;
+    cardView.backgroundColor = [UIColor clearColor];
+    cardView.userInteractionEnabled = NO;
+    //    [cardView addBlur];
+    //    [cardView addShadow];
+    [self.view addSubview:cardView];
+    
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0 , self.view.width, self.view.height) style:UITableViewStylePlain];
+    self.tableView.contentInset = UIEdgeInsetsMake(250, 0, 0, 0);
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    [self.view bringSubviewToFront:cardView];
     
     [self setTitle:@"设置"];
     self.tableView.scrollEnabled = NO;
+    self.tableView.tableFooterView = [[UIView alloc]init];
     _textView = [[UITextView alloc]init];
     _textView.text = @"\n\n\n\n          免责声明 单击此页面可退出\n任何使用本手机客户端的的用户均应仔细阅读本声明，用户可选择不使用本手机端系统，用户使用本手机客户端的行为将被视为对本声明全部内容的认可。\n“宝妈妈”是一个公共的免费苹果应用分享，旨在为广大的已经是妈妈的和即将成为妈妈和有愿望成为妈妈的女性朋友提供有用的信息。\n“宝妈妈”仅为用户提供常识和食谱类信息，“宝妈妈”上的信息及相关资料均由用户在医药吧网站上传时填写和上传，或者由第三方提供。“宝妈妈”仅可能会对其文字内容在尊重原意的前提下进行编辑,本客户端所用图片非原创全部著名了出处。\n“宝妈妈”一贯高度重视知识产权保护并遵守中华人民共和国各项知识产权法律、法规和具有约束力的规范性文件。本客户端坚决反对任何违反中华人民共和国有关著作权的法律法规的行为。由于我们无法对用户上传到服务器的所有信息进行充分的监测，我们制定了旨在保护知识产权权利人合法权益的措施和步骤，当著作权人和/或依法可以行使信息网络传播权的权利人（以下简称“权利人“）发现“宝妈妈”上用户上传或者第三方内容侵犯其信息网络传播权时，权利人应事先向“宝妈妈”发出权利通知，“宝妈妈”将根据相关法律规定采取措施删除或修改相关内容。具体措施和步骤如下：\n如果阁下是某一资料或图片的著作权人和/或依法可以行使信息网络传播权的权利人，且您认为“宝妈妈”上用户上传或第三方提供的内容侵犯了您对该等作品的信息网络传播权，请阁下务必书面通知或联系“宝妈妈”，阁下应对书面通知陈述之真实性负责。\n为方便“宝妈妈”及时处理阁下之意见，请先准备以下内容：\n•--阁下的名称（姓名）、联系方式及地址；\n•--要求删除的资源的名称和描述；\n•--构成侵权地初步证明材料，谨此提示以下材料可能构成初步证明。\n对于涉嫌侵权作品拥有著作权或依法可以行使信息网络传播权的权属证明；对涉嫌侵权作品侵权事实的举证。\n联系邮箱：bbcoderios@gmail.com\n“宝妈妈”会认真协助您处理相关事宜，期待带给您良好的用户体验。";
     _textView.editable = NO;
@@ -59,7 +88,7 @@
 #pragma mark - tableView数据源方法
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -75,9 +104,12 @@
             [sw addTarget:self action:@selector(nightable:) forControlEvents:UIControlEventValueChanged];
             break;
         case 1:
-            cell.textLabel.text = @"回馈评论";
+            cell.textLabel.text = @"我的二维码";
             break;
         case 2:
+            cell.textLabel.text = @"回馈评论";
+            break;
+        case 3:
             cell.textLabel.text = @"免责声明";
             break;
         default:
@@ -107,13 +139,35 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(back)];
     switch (indexPath.row) {
         case 0:
-            
             break;
-        case 1:
-            [self evaluate];
+            case 1:
+        {
+            UIImageView * iv = [[UIImageView alloc]init];
+            [self.view addSubview:iv
+             ];
+            iv.backgroundColor = [[UIColor whiteColor]  colorWithAlphaComponent:0.8];
+            [self.view bringSubviewToFront:iv];
+            iv.userInteractionEnabled = YES;
+            iv.contentMode = UIViewContentModeCenter;
+            iv.image = [[SaveTool sharedSaveTool]getImageWithKey:@"MyQR"];
+            [UIView animateWithDuration:.25 animations:^{
+                iv.frame = CGRectMake(0, 0, self.view.width, self.view.height);
+                iv.center = self.view.center;
+            }];
+            
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapQRImage:)];
+            [iv addGestureRecognizer:tap];
+            
+            
+            
+            
+        }
             break;
         case 2:
-            _textView.frame = self.view.bounds;
+            [self evaluate];
+            break;
+        case 3:
+            _textView.frame = CGRectMake(0, - 64, self.view.width, self.view.height + 20);
             [_textView addGestureRecognizer:tap];
             [self.view addSubview:_textView];
             break;
@@ -158,5 +212,10 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+
+- (void)tapQRImage:(UITapGestureRecognizer *)tap
+{
+    [tap.view removeFromSuperview];
 }
 @end
