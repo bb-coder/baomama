@@ -12,9 +12,7 @@
 #import "AFNetworking.h"
 #import "RongCloudHelper.h"
 
-#define kRongCloudToken @"RongCloud_userToken"
-#define kRongCloudApp_Key @"3argexb6r9uze"
-#define kRongCloudApp_secret @"NjXWLZz6Omatt"
+
 
 @implementation RongCloudTool
 

@@ -19,6 +19,7 @@ kSingletonImplements(AccountTool)
     _userId = userId;
     
     UIImage * image = [QRCodeGenerator qrImageForString:[NSString stringWithFormat:@"baomama%@",userId] imageSize:320];
+    BBLog(@"%@",userId);
     [[SaveTool sharedSaveTool] saveImage:image forKey:@"MyQR"];
 }
 

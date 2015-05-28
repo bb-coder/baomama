@@ -47,7 +47,7 @@
     
     
     // 初始化 SDK，传入 App Key，deviceToken 暂时为空，等待获取权限。
-    [RCIM initWithAppKey:@"3argexb6r9uze" deviceToken:nil];
+    [RCIM initWithAppKey:@"ik1qhw091e67p" deviceToken:nil];
     
     FMDatabaseQueue * qu = [FMDBTool queue];
     
@@ -58,13 +58,14 @@
         isHasFriends = rs.next;
         [rs close];
     }];
-    
+#if DEBUG
     if (!isHasFriends) {
         [qu inDatabase:^(FMDatabase *db) {
             [db executeUpdate:@"insert into FRIENDS(name,userId) values(?,?)",@"李雷",@"李雷:0"];
             [db executeUpdate:@"insert into FRIENDS(name,userId) values(?,?)",@"张三",@"张三:0"];
         }];
     }
+#endif
     
     [qu inDatabase:^(FMDatabase *db) {
        FMResultSet * rs = [db executeQuery:@"select * from USERS"];

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define kRongCloudToken @"RongCloud_userToken"
+#define kRongCloudApp_Key @"ik1qhw091e67p"
+#define kRongCloudApp_secret @"Lkz7ImJ8XN"
+
 typedef void (^SuccessBlock)(NSString * token);
 typedef void (^CompleteBlock)();
 
