@@ -1,7 +1,7 @@
 //宝妈妈api网络配置
 
 //网络基站
-#define kBasePath @"http://api.yi18.net"
+#define kBasePath @"http://api.tngou.net"
 //图片基站
 #define kBaseImagePath @"http://www.yi18.net/"
 //常识列表api 参数：page｜页数 limit｜每页数量 type｜排序（id最新，count最热）?page=2&limit=10&type=id&id=6
